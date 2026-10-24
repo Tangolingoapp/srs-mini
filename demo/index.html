@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>srs-mini demo</title>
+    <style>
+      body { font-family: ui-monospace, monospace; background: #101418; color: #eef2f6; max-width: 640px; margin: 48px auto; padding: 0 20px; }
+      table { border-collapse: collapse; width: 100%; }
+      td, th { border: 1px solid #27313d; padding: 8px 12px; text-align: left; font-size: 13px; }
+      th { background: #171d24; }
+      h1 span { color: #5ab0e0; }
+      p { color: #8b99a8; font-size: 13px; }
+    </style>
+  </head>
+  <body>
+    <h1>srs<span>-mini</span></h1>
+    <p>Simulated reviews — watch the interval grow when you recall, reset when you don't.</p>
+    <table id="t"><tr><th>review</th><th>quality</th><th>reps</th><th>interval</th><th>ease</th><th>next</th></tr></table>
+    <script type="module">
+      import { newCard, review, intervalLabel } from "../srs-mini.js"
+      const qualities = [4, 4, 5, 3, 1, 4, 4, 4, 5] // a mixed study session
+      let card = newCard()
+      const rows = qualities.map((q, i) => {
+        card = review(card, q)
+        return `<tr><td>#${i + 1}</td><td>${q}</td><td>${card.reps}</td><td>${card.interval}d</td><td>${card.ease.toFixed(2)}</td><td>${intervalLabel(card)}</td></tr>`
+      })
+      document.getElementById("t").insertAdjacentHTML("beforeend", rows.join(""))
+    </script>
+  </body>
+</html>
